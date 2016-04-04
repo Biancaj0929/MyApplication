@@ -12,9 +12,10 @@
     tools:context="umuc.com.myapplication.MainActivity"
     tools:showIn="@layout/app_bar_main">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello Teammates!\n
-        This is just a starting UI framework." />
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@android:id/list"
+        android:layout_weight="1"/>
+
 </RelativeLayout>
