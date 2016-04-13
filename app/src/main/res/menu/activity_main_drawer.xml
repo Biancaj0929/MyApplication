@@ -18,6 +18,10 @@
             android:id="@+id/nav_longterm"
             android:icon="@drawable/ic_menu_manage"
             android:title="Long-Term Goals" />
+        <item
+            android:id="@+id/nav_budgeting"
+            android:icon="@drawable/ic_menu_manage"
+            android:title="Budgeting Goals" />
     </group>
 
 </menu>
