@@ -18,7 +18,7 @@ public class Budgeting extends Goals {
         @Override
         protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
-            setContentView(R.layout.layout_budgeting);
+            setContentView(R.layout.activity_budgeting);
             Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
             setSupportActionBar(toolbar);
             final AlertDialog.Builder builder = new AlertDialog.Builder(this);
