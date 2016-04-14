@@ -1,5 +1,5 @@
 package umuc.com.myapplication;
-// test
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -19,7 +19,7 @@ public class SplashScreen extends Activity {
         Thread timerThread = new Thread(){
             public void run(){
                 try{
-                    sleep(12000);
+                    sleep(3000);
                 }catch(InterruptedException e){
                     e.printStackTrace();
                 }finally{
