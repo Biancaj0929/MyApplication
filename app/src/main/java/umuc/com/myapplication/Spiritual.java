@@ -31,7 +31,7 @@ public class Spiritual extends Goals {
             public void onClick(View view) {
                 Log.d("Selected Add", "New goal will be created");
 
-                builder.setTitle("Making a new goal!");
+                builder.setTitle("Making a new spiritual goal!");
                 builder.setMessage("What is your new bucket list item?");
                 builder.setView(inputField);
                 builder.setPositiveButton("Add", new DialogInterface.OnClickListener() {
