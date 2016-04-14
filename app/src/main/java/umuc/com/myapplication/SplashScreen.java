@@ -7,7 +7,6 @@ import android.os.Bundle;
  * Created by Steve on 4/14/2016.
  * Creates thread and puts thread to
  *  sleep (pauses thread) for n milliseconds
- *
  */
 public class SplashScreen extends Activity {
 
