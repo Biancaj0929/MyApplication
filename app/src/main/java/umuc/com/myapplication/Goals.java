@@ -2,9 +2,9 @@ package umuc.com.myapplication;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -25,7 +25,7 @@ public class Goals extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_personal);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         final AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -105,18 +105,28 @@ public class Goals extends AppCompatActivity
 
         if (id == R.id.nav_personal) {
             Log.d("PersonalActivity", "Hit personal button");
+            Intent personal_intent = new Intent(this, Personal.class);
+            startActivity(personal_intent);
         }
         else if (id == R.id.nav_physical) {
             Log.d("Physical Activity", "Hit physical button");
+            Intent physical_intent = new Intent(this, Physical.class);
+            startActivity(physical_intent);
         }
         else if (id == R.id.nav_spiritual) {
             Log.d("Spiritual Activity", "Hit spiritual button");
+            Intent spiritual_intent = new Intent(this, Spiritual.class);
+            startActivity(spiritual_intent);
         }
         else if (id == R.id.nav_longterm){
             Log.d("Long-Term Activity", "Hit long term button");
+            Intent long_term_intent = new Intent(this, Long_Term.class);
+            startActivity(long_term_intent);
         }
         else if (id == R.id.nav_budgeting){
             Log.d("Budgeting Activity", "Hit budgeting button");
+            Intent budgeting_intent = new Intent(this, Budgeting.class);
+            startActivity(budgeting_intent);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

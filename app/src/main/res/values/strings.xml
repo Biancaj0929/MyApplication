@@ -1,6 +1,10 @@
 <resources>
     <string name="app_name">My Bucket List</string>
-
+    <string name="app_personal">Personal Goals</string>
+    <string name="app_physical">Physical Goals</string>
+    <string name="app_spiritual">Spiritual Goals</string>
+    <string name="app_long_term">Long-Term Goals</string>
+    <string name="app_budgeting">Budgeting Goals</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 

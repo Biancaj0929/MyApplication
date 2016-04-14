@@ -18,7 +18,7 @@ public class Long_Term extends Goals {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.layout_long_term);
+        setContentView(R.layout.activity_long_term);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         final AlertDialog.Builder builder = new AlertDialog.Builder(this);
