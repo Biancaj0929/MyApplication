@@ -8,7 +8,7 @@ import android.os.Bundle;
  * Creates thread and puts thread to
  *  sleep (pauses thread) for n milliseconds
  */
-public class SplashScreen extends Activity {
+public class SplashScreen extends Goals {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,7 +22,7 @@ public class SplashScreen extends Activity {
                 }catch(InterruptedException e){
                     e.printStackTrace();
                 }finally{
-                    Intent intent = new Intent(SplashScreen.this,Goals.class);
+                    Intent intent = new Intent(SplashScreen.this,Personal.class);
                     startActivity(intent);
                 }
             }
