@@ -13,7 +13,7 @@ import android.view.View;
 import android.widget.EditText;
 
 /*File: Long_Term.java
-* Author: Bianca Jimenez
+* Author: Team Bucket List
 * Date: 15 April 2016
 * Purpose: Sets correct layout view for long-term menu. New Long-Term Goals can be added by
 *          selecting floating action button. Extends goals class to handle navigation menu options.

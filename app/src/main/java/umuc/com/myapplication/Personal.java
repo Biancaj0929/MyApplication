@@ -15,7 +15,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 
 /*File: Personal.java
-* Author: Bianca Jimenez
+* Author: Team Bucket List
 * Date: 15 April 2016
 * Purpose: Sets correct layout view for personal menu. New Personal Goals can be added by
 *          selecting floating action button. Extends goals class to handle navigation menu options.

@@ -18,7 +18,7 @@ import android.view.MenuItem;
 import android.widget.EditText;
 
 /*File: Goals.java
-* Author: Bianca Jimenez
+* Author: Team Bucket List
 * Date: 15 April 2016
 * Purpose: Super class that handles navigation menu items selected. Calls the appropriate
 *          activities based on menu options selected. Handles basic navigation based items as well.
