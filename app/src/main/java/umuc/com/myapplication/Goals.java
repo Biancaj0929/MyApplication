@@ -17,54 +17,46 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
 
+/*File: Goals.java
+* Author: Bianca Jimenez
+* Date: 15 April 2016
+* Purpose: Super class that handles navigation menu items selected. Calls the appropriate
+*          activities based on menu options selected. Handles basic navigation based items as well.
+*/
+
 public class Goals extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-
-
+    // On Create method sets activity layout for default menu
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_personal);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        final EditText inputField = new EditText(this);
 
+        // Floating action button to add a new goal, on click listener calls popup method
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.plus);
         assert fab != null;
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.d("Selected Add", "New goal will be created");
-
-                builder.setTitle("Making a new goal!");
-                builder.setMessage("What is your new bucket list item?");
-                builder.setView(inputField);
-                builder.setPositiveButton("Add", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        Log.d("Goals",inputField.getText().toString());
-                    }
-                });
-
-                builder.setNegativeButton("Cancel",null);
-
-                builder.create().show();
-
+                Log.d("Goal", "New goal will be created");
+                displayPopup();
             }
         });
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
+        // Sets navigation view
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
     }
 
+    // Handles drawer open & close options
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -75,28 +67,26 @@ public class Goals extends AppCompatActivity
         }
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
+    // Creates and displays alert dialog builder
+    public void displayPopup() {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(Goals.this);
+        final EditText inputField = new EditText(Goals.this);
+        builder.setTitle("Making a New Goal!");
+        builder.setMessage("What is your new bucket list item?");
+        builder.setView(inputField);
+        builder.setPositiveButton("Add", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                Log.d("Goals",inputField.getText().toString());
+            }
+        });
+
+        builder.setNegativeButton("Cancel",null);
+
+        builder.create().show();
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
+    // Starts activities for different menu options based on item selected
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
@@ -105,27 +95,27 @@ public class Goals extends AppCompatActivity
 
         if (id == R.id.nav_personal) {
             Log.d("PersonalActivity", "Hit personal button");
-            Intent personal_intent = new Intent(this, Personal.class);
+            Intent personal_intent = new Intent(Goals.this, Personal.class);
             startActivity(personal_intent);
         }
         else if (id == R.id.nav_physical) {
             Log.d("Physical Activity", "Hit physical button");
-            Intent physical_intent = new Intent(this, Physical.class);
+            Intent physical_intent = new Intent(Goals.this, Physical.class);
             startActivity(physical_intent);
         }
         else if (id == R.id.nav_spiritual) {
             Log.d("Spiritual Activity", "Hit spiritual button");
-            Intent spiritual_intent = new Intent(this, Spiritual.class);
+            Intent spiritual_intent = new Intent(Goals.this, Spiritual.class);
             startActivity(spiritual_intent);
         }
         else if (id == R.id.nav_longterm){
             Log.d("Long-Term Activity", "Hit long term button");
-            Intent long_term_intent = new Intent(this, Long_Term.class);
+            Intent long_term_intent = new Intent(Goals.this, Long_Term.class);
             startActivity(long_term_intent);
         }
         else if (id == R.id.nav_budgeting){
             Log.d("Budgeting Activity", "Hit budgeting button");
-            Intent budgeting_intent = new Intent(this, Budgeting.class);
+            Intent budgeting_intent = new Intent(Goals.this, Budgeting.class);
             startActivity(budgeting_intent);
         }
 
