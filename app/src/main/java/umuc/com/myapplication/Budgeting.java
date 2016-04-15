@@ -12,53 +12,62 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 
+/*File: Budgeting.java
+* Author: Team Bucket List
+* Date: 15 April 2016
+* Purpose: Sets correct layout view for budgeting menu. New Budgeting Goals can be added by
+*          selecting floating action button. Extends goals class to handle navigation menu options.
+*/
 
 public class Budgeting extends Goals {
 
-        @Override
-        protected void onCreate(Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
-            setContentView(R.layout.activity_budgeting);
-            Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-            setSupportActionBar(toolbar);
-            final AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            final EditText inputField = new EditText(this);
+    // On Create method sets activity layout for budgeting menu
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_budgeting);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
-            FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.plus);
-            assert fab != null;
-            fab.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Log.d("Selected Add", "New goal will be created");
+        // Floating action button to add a new goal, on click listener calls popup method
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.plus);
+        assert fab != null;
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d("Selected Add", "New budgeting goal will be created");
+                displayPopup();
+            }
+        });
 
-                    builder.setTitle("Making a new goal!");
-                    builder.setMessage("What is your new bucket list item?");
-                    builder.setView(inputField);
-                    builder.setPositiveButton("Add", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            Log.d("Budgeting",inputField.getText().toString());
-                        }
-                    });
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.setDrawerListener(toggle);
+        toggle.syncState();
 
-                    builder.setNegativeButton("Cancel",null);
-
-                    builder.create().show();
-
-                }
-            });
-
-            DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-            ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                    this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-            drawer.setDrawerListener(toggle);
-            toggle.syncState();
-
-            NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-            navigationView.setNavigationItemSelectedListener(this);
-        }
-
-
+        // Sets navigation view
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(Budgeting.this);
     }
 
+    // Creates and displays alert dialog builder
+    public void displayPopup() {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(Budgeting.this);
+        final EditText inputField = new EditText(Budgeting.this);
+        builder.setTitle("Making a New Budgeting Goal!");
+        builder.setMessage("What is your new bucket list item?");
+        builder.setView(inputField);
+        builder.setPositiveButton("Add", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                Log.d("Budgeting Goals", inputField.getText().toString());
+            }
+        });
 
+        builder.setNegativeButton("Cancel", null);
+
+        builder.create().show();
+    }
+
+}

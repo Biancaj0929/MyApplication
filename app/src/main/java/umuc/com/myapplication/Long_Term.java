@@ -12,39 +12,31 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 
+/*File: Long_Term.java
+* Author: Team Bucket List
+* Date: 15 April 2016
+* Purpose: Sets correct layout view for long-term menu. New Long-Term Goals can be added by
+*          selecting floating action button. Extends goals class to handle navigation menu options.
+*/
 
 public class Long_Term extends Goals {
 
+    // On Create method sets activity layout for long-term menu
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_long_term);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        final EditText inputField = new EditText(this);
 
+        // Floating action button to add a new goal, on click listener calls popup method
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.plus);
         assert fab != null;
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.d("Selected Add", "New goal will be created");
-
-                builder.setTitle("Making a new goal!");
-                builder.setMessage("What is your new bucket list item?");
-                builder.setView(inputField);
-                builder.setPositiveButton("Add", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        Log.d("Long-Term",inputField.getText().toString());
-                    }
-                });
-
-                builder.setNegativeButton("Cancel",null);
-
-                builder.create().show();
-
+                Log.d("Selected Add", "New long-term goal will be created");
+                displayPopup();
             }
         });
 
@@ -54,11 +46,30 @@ public class Long_Term extends Goals {
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
+        // Sets navigation view
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
+        navigationView.setNavigationItemSelectedListener(Long_Term.this);
     }
 
+    // Creates and displays alert dialog builder
+    public void displayPopup() {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(Long_Term.this);
+        final EditText inputField = new EditText(Long_Term.this);
+        builder.setTitle("Making a New Long-Term Goal!");
+        builder.setMessage("What is your new bucket list item?");
+        builder.setView(inputField);
+        builder.setPositiveButton("Add", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                Log.d("Long-Term Goals", inputField.getText().toString());
+            }
+        });
 
+        builder.setNegativeButton("Cancel", null);
+
+        builder.create().show();
+    }
 }
+
 
 
