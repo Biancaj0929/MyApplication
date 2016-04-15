@@ -1,6 +1,5 @@
 package umuc.com.myapplication;
 
-
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -13,23 +12,30 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 
-public class Spiritual extends Goals {
+/*File: Budgeting.java
+* Author: Bianca Jimenez
+* Date: 15 April 2016
+* Purpose: Sets correct layout view for budgeting menu. New Budgeting Goals can be added by
+*          selecting floating action button. Extends goals class to handle navigation menu options.
+*/
 
+public class Budgeting extends Goals {
+
+    // On Create method sets activity layout for budgeting menu
     @Override
-
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_spiritual);
+        setContentView(R.layout.activity_budgeting);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-
+        // Floating action button to add a new goal, on click listener calls popup method
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.plus);
         assert fab != null;
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.d("Selected Add", "New goal will be created");
+                Log.d("Selected Add", "New budgeting goal will be created");
                 displayPopup();
             }
         });
@@ -40,20 +46,22 @@ public class Spiritual extends Goals {
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
+        // Sets navigation view
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
+        navigationView.setNavigationItemSelectedListener(Budgeting.this);
     }
 
+    // Creates and displays alert dialog builder
     public void displayPopup() {
-        final AlertDialog.Builder builder = new AlertDialog.Builder(Spiritual.this);
-        final EditText inputField = new EditText(Spiritual.this);
-        builder.setTitle("Making a new goal!");
+        final AlertDialog.Builder builder = new AlertDialog.Builder(Budgeting.this);
+        final EditText inputField = new EditText(Budgeting.this);
+        builder.setTitle("Making a New Budgeting Goal!");
         builder.setMessage("What is your new bucket list item?");
         builder.setView(inputField);
         builder.setPositiveButton("Add", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                Log.d("Goals", inputField.getText().toString());
+                Log.d("Budgeting Goals", inputField.getText().toString());
             }
         });
 
