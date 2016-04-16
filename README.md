@@ -25,7 +25,7 @@ The Bucket List app is an Android Application that allows users to create, organ
 ---------------------------
 
 
-To utilize the Bucket List app, you will need an Android-capable phone or tablet running on Android version 4.3 (Jellybean) or higher, and the ability to side-load or otherwise transfer an unsigned *.apk to an Android device.
+To utilize the Bucket List app, you will need an Android-capable phone or tablet running on Android version 4.3 (Jellybean) or higher, and the ability to sideload or otherwise transfer an unsigned *.apk to an Android device.
 
 It is helpful to install a file manager, such as Astro or ES File Explorer, onto your device to locate the correct file for proper installation.
 
