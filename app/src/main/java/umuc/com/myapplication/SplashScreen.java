@@ -8,7 +8,7 @@ import android.os.Bundle;
 * Author: Team Bucket List
 * Date: 15 April 2016
 * Purpose:  Displays splash screen for three seconds when app is initiated. 
-*           Shows title and contributors with image of bucket in background.
+*           Shows title and contributors with image of bucket in background. 
 **/
 
 public class SplashScreen extends Goals {
