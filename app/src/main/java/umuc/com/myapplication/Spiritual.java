@@ -11,6 +11,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.DatePicker;
 
 /*File: Spiritual.java
 * Author: Team Bucket List
@@ -37,6 +38,7 @@ public class Spiritual extends Goals {
             public void onClick(View view) {
                 Log.d("Selected Add", "New spiritual goal will be created");
                 displayPopup();
+                displaycal();
             }
         });
 
@@ -51,6 +53,16 @@ public class Spiritual extends Goals {
         navigationView.setNavigationItemSelectedListener(Spiritual.this);
     }
 
+        builder.setTitle("Set your Deadline for your new Goal");
+        builder.setView(picker);
+        builder.setNegativeButton("Cancel", null);
+        builder.setPositiveButton("Set", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id){
+                Log.d("Spiritual Goals", DateInput.getText().toString());
+            }
+        });
+        builder.show();
+    }
     // Creates and displays alert dialog builder
     public void displayPopup() {
         final AlertDialog.Builder builder = new AlertDialog.Builder(Spiritual.this);
