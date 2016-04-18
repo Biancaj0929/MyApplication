@@ -53,6 +53,10 @@ public class Spiritual extends Goals {
         navigationView.setNavigationItemSelectedListener(Spiritual.this);
     }
 
+    public void displaycal() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(Spiritual.this);
+        DatePicker picker = new DatePicker(this);
+        final EditText DateInput = new EditText(Spiritual.this);
         builder.setTitle("Set your Deadline for your new Goal");
         builder.setView(picker);
         builder.setNegativeButton("Cancel", null);
@@ -67,7 +71,7 @@ public class Spiritual extends Goals {
     public void displayPopup() {
         final AlertDialog.Builder builder = new AlertDialog.Builder(Spiritual.this);
         final EditText inputField = new EditText(Spiritual.this);
-        builder.setTitle("Making a New Spritual Goal!");
+        builder.setTitle("Making a New Spiritual Goal!");
         builder.setMessage("What is your new bucket list item?");
         builder.setView(inputField);
         builder.setPositiveButton("Add", new DialogInterface.OnClickListener() {

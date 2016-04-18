@@ -65,11 +65,12 @@ public class Personal extends Goals {
         builder.setView(picker);
         builder.setNegativeButton("Cancel", null);
         builder.setPositiveButton("Set", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id){
+            public void onClick(DialogInterface dialog, int id) {
                 Log.d("Personal Goals", DateInput.getText().toString());
             }
         });
         builder.show();
+    }
 
     // Creates and displays alert dialog builder
     public void displayPopup() {
