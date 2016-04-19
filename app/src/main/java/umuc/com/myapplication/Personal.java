@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.DatePicker;
 
 /*File: Personal.java
 * Author: Team Bucket List
@@ -39,6 +40,7 @@ public class Personal extends Goals {
             public void onClick(View view) {
                 Log.d("Selected Add", "New personal goal will be created");
                 displayPopup();
+                displaycal();
             }
         });
 
@@ -51,6 +53,23 @@ public class Personal extends Goals {
         // Sets navigation view
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(Personal.this);
+    }
+    
+    public void displaycal() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        DatePicker picker = new DatePicker(this);
+        final EditText DateInput = new EditText(Personal.this);
+
+
+        builder.setTitle("Set your Deadline for your new Goal");
+        builder.setView(picker);
+        builder.setNegativeButton("Cancel", null);
+        builder.setPositiveButton("Set", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                Log.d("Personal Goals", DateInput.getText().toString());
+            }
+        });
+        builder.show();
     }
 
     // Creates and displays alert dialog builder
