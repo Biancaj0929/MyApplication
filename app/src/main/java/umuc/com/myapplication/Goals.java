@@ -15,6 +15,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.DatePicker;
 import android.widget.EditText;
 
 /*File: Goals.java
@@ -42,7 +43,7 @@ public class Goals extends AppCompatActivity
             @Override
             public void onClick(View view) {
                 Log.d("Goal", "New goal will be created");
-                displayPopup();
+                displaycal();
             }
         });
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -67,6 +68,25 @@ public class Goals extends AppCompatActivity
         }
     }
 
+    // Displays date picker to keep track of deadlines for goals
+    public void displaycal() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        DatePicker picker = new DatePicker(this);
+        final EditText DateInput = new EditText(Goals.this);
+
+
+        builder.setTitle("Set your Deadline for your new Goal");
+        builder.setView(picker);
+        builder.setNegativeButton("Cancel", null);
+        builder.setPositiveButton("Set", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id){
+                displayPopup();
+                Log.d("Budgeting Goals", DateInput.getText().toString());
+            }
+        });
+        builder.show();
+    }
+
     // Creates and displays alert dialog builder
     public void displayPopup() {
         final AlertDialog.Builder builder = new AlertDialog.Builder(Goals.this);
@@ -74,9 +94,10 @@ public class Goals extends AppCompatActivity
         builder.setTitle("Making a New Goal!");
         builder.setMessage("What is your new bucket list item?");
         builder.setView(inputField);
-        builder.setPositiveButton("Add", new DialogInterface.OnClickListener() {
+        builder.setPositiveButton("Save", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
+                displayPopup();
                 Log.d("Goals",inputField.getText().toString());
             }
         });

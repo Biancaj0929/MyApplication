@@ -37,7 +37,6 @@ public class Long_Term extends Goals {
             @Override
             public void onClick(View view) {
                 Log.d("Selected Add", "New long-term goal will be created");
-                displayPopup();
                 displaycal();
             }
         });
@@ -52,8 +51,9 @@ public class Long_Term extends Goals {
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(Long_Term.this);
     }
-    
- public void displaycal() {
+
+    // Displays date picker to keep track of deadlines for goals
+    public void displaycal() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         DatePicker picker = new DatePicker(this);
         final EditText DateInput = new EditText(Long_Term.this);
@@ -64,6 +64,7 @@ public class Long_Term extends Goals {
         builder.setNegativeButton("Cancel", null);
         builder.setPositiveButton("Set", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id){
+                displayPopup();
                 Log.d("Long Term Goals", DateInput.getText().toString());
             }
         });
@@ -76,7 +77,7 @@ public class Long_Term extends Goals {
         builder.setTitle("Making a New Long-Term Goal!");
         builder.setMessage("What is your new bucket list item?");
         builder.setView(inputField);
-        builder.setPositiveButton("Add", new DialogInterface.OnClickListener() {
+        builder.setPositiveButton("Save", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 Log.d("Long-Term Goals", inputField.getText().toString());

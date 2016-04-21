@@ -39,7 +39,6 @@ public class Personal extends Goals {
             @Override
             public void onClick(View view) {
                 Log.d("Selected Add", "New personal goal will be created");
-                displayPopup();
                 displaycal();
             }
         });
@@ -54,7 +53,8 @@ public class Personal extends Goals {
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(Personal.this);
     }
-    
+
+    // Displays date picker to keep track of deadlines for goals
     public void displaycal() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         DatePicker picker = new DatePicker(this);
@@ -66,6 +66,7 @@ public class Personal extends Goals {
         builder.setNegativeButton("Cancel", null);
         builder.setPositiveButton("Set", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
+                displayPopup();
                 Log.d("Personal Goals", DateInput.getText().toString());
             }
         });
@@ -79,7 +80,7 @@ public class Personal extends Goals {
         builder.setTitle("Making a New Personal Goal!");
         builder.setMessage("What is your new bucket list item?");
         builder.setView(inputField);
-        builder.setPositiveButton("Add", new DialogInterface.OnClickListener() {
+        builder.setPositiveButton("Save", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 Log.d("Personal Goals",inputField.getText().toString());

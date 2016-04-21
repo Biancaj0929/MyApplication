@@ -37,8 +37,8 @@ public class Spiritual extends Goals {
             @Override
             public void onClick(View view) {
                 Log.d("Selected Add", "New spiritual goal will be created");
-                displayPopup();
                 displaycal();
+
             }
         });
 
@@ -53,6 +53,7 @@ public class Spiritual extends Goals {
         navigationView.setNavigationItemSelectedListener(Spiritual.this);
     }
 
+    // Displays date picker to keep track of deadlines for goals
     public void displaycal() {
         AlertDialog.Builder builder = new AlertDialog.Builder(Spiritual.this);
         DatePicker picker = new DatePicker(this);
@@ -62,6 +63,7 @@ public class Spiritual extends Goals {
         builder.setNegativeButton("Cancel", null);
         builder.setPositiveButton("Set", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id){
+                displayPopup();
                 Log.d("Spiritual Goals", DateInput.getText().toString());
             }
         });
@@ -74,7 +76,7 @@ public class Spiritual extends Goals {
         builder.setTitle("Making a New Spiritual Goal!");
         builder.setMessage("What is your new bucket list item?");
         builder.setView(inputField);
-        builder.setPositiveButton("Add", new DialogInterface.OnClickListener() {
+        builder.setPositiveButton("Save", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 Log.d("Spiritual Goals", inputField.getText().toString());

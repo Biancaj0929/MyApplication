@@ -37,7 +37,6 @@ public class Budgeting extends Goals {
             @Override
             public void onClick(View view) {
                 Log.d("Selected Add", "New budgeting goal will be created");
-                displayPopup();
                 displaycal();
             }
         });
@@ -52,7 +51,8 @@ public class Budgeting extends Goals {
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(Budgeting.this);
     }
-    
+
+     // Displays date picker to keep track of deadlines for goals
      public void displaycal() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         DatePicker picker = new DatePicker(this);
@@ -64,6 +64,7 @@ public class Budgeting extends Goals {
         builder.setNegativeButton("Cancel", null);
         builder.setPositiveButton("Set", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id){
+                displayPopup();
                 Log.d("Budgeting Goals", DateInput.getText().toString());
             }
         });
@@ -77,7 +78,7 @@ public class Budgeting extends Goals {
         builder.setTitle("Making a New Budgeting Goal!");
         builder.setMessage("What is your new bucket list item?");
         builder.setView(inputField);
-        builder.setPositiveButton("Add", new DialogInterface.OnClickListener() {
+        builder.setPositiveButton("Save", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 Log.d("Budgeting Goals", inputField.getText().toString());
