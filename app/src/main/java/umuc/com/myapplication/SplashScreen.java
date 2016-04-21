@@ -13,7 +13,8 @@ import android.os.Bundle;
 
 public class SplashScreen extends Goals {
     
-    //Creates thread and puts thread to sleep (pauses thread) for n milliseconds to display contents of splash screen
+    //Creates thread and puts thread to sleep (pauses thread)
+    // for n milliseconds to display contents of splash screen
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

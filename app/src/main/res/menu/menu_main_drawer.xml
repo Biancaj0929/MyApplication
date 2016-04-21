@@ -4,23 +4,23 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_personal"
-            android:icon="@drawable/ic_menu_manage"
+            android:icon="@drawable/ic_personal_goals"
             android:title="Personal Goals" />
         <item
             android:id="@+id/nav_physical"
-            android:icon="@drawable/ic_menu_manage"
+            android:icon="@drawable/ic_physical_goals"
             android:title="Physical Goals" />
         <item
             android:id="@+id/nav_spiritual"
-            android:icon="@drawable/ic_menu_manage"
+            android:icon="@drawable/ic_spiritual_goals"
             android:title="Spiritual Goals" />
         <item
             android:id="@+id/nav_longterm"
-            android:icon="@drawable/ic_menu_manage"
+            android:icon="@drawable/ic_longterm_goals"
             android:title="Long-Term Goals" />
         <item
             android:id="@+id/nav_budgeting"
-            android:icon="@drawable/ic_menu_manage"
+            android:icon="@drawable/ic_budgeting_goals"
             android:title="Budgeting Goals" />
     </group>
 
