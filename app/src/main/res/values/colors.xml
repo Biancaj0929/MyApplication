@@ -6,8 +6,8 @@
     <color name="colorTitleText">#535353</color>
 
 
-    <color name="colorNavBackground">#535353</color>
-    <color name="colorNavIcons">#FFFFFF</color>
-    <color name="colorNavText">#A0A0A0</color>
+    <color name="navBackground">#535353</color>
+    <color name="navIcons">#FFFFFF</color>
+    <color name="navText">#A0A0A0</color>
 
 </resources>
