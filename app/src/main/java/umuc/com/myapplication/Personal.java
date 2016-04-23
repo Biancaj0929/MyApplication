@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
@@ -14,6 +15,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.DatePicker;
+import android.widget.Toast;
+
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 
 /*File: Personal.java
 * Author: Team Bucket List
@@ -24,6 +31,14 @@ import android.widget.DatePicker;
 
 public class Personal extends Goals {
 
+    /* create text file to store list of personal goal names */
+    public final static String PERSLABELS = "perslabels.txt";
+
+    /* create text file to store list of dates for personal goals */
+    public final static String PERSDATES = "persdates.txt";
+
+
+
     // On Create method sets activity layout for personal menu
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +46,7 @@ public class Personal extends Goals {
         setContentView(R.layout.activity_personal);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
 
         // Floating action button to add a new goal, on click listener calls popup method
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.plus);
@@ -68,6 +84,18 @@ public class Personal extends Goals {
             public void onClick(DialogInterface dialog, int id) {
                 displayPopup();
                 Log.d("Personal Goals", DateInput.getText().toString());
+                try {
+                    OutputStreamWriter out =
+                            new OutputStreamWriter(openFileOutput(PERSDATES, MODE_APPEND));
+                    out.write(DateInput.getText().toString() + '\n');
+                    out.close();
+                    Toast.makeText(getApplicationContext(), "Date saved in the file.",
+                            Toast.LENGTH_LONG).show();
+
+                } catch (Throwable t) {
+                    Toast.makeText(getApplicationContext(), "Exception: " + t.toString(),
+                            Toast.LENGTH_LONG).show();
+                }
             }
         });
         builder.show();
@@ -83,11 +111,24 @@ public class Personal extends Goals {
         builder.setPositiveButton("Save", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                Log.d("Personal Goals",inputField.getText().toString());
+                Log.d("Personal Goals", inputField.getText().toString() + '\n');
+                try {
+                    OutputStreamWriter out =
+                            new OutputStreamWriter(openFileOutput(PERSLABELS, MODE_APPEND));
+                    out.write(inputField.getText().toString() + "\n");
+                    out.close();
+                    Toast.makeText(getApplicationContext(), "Personal goal saved to file.",
+                            Toast.LENGTH_LONG).show();
+
+                } catch (Throwable t) {
+                    Toast.makeText(getApplicationContext(), "Exception: " + t.toString(),
+                            Toast.LENGTH_LONG).show();
+                }
+
             }
         });
 
-        builder.setNegativeButton("Cancel",null);
+        builder.setNegativeButton("Cancel", null);
 
         builder.create().show();
     }
