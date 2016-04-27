@@ -1,6 +1,7 @@
 package umuc.com.myapplication;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -8,10 +9,14 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.InputType;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.DatePicker;
+import android.widget.LinearLayout;
+import android.widget.Toast;
 
 /*File: Budgeting.java
 * Author: Team Bucket List
@@ -37,9 +42,10 @@ public class Budgeting extends Goals {
             @Override
             public void onClick(View view) {
                 Log.d("Selected Add", "New budgeting goal will be created");
-                displaycal();
+                displayPopup();
             }
         });
+
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -52,42 +58,73 @@ public class Budgeting extends Goals {
         navigationView.setNavigationItemSelectedListener(Budgeting.this);
     }
 
-     // Displays date picker to keep track of deadlines for goals
-     public void displaycal() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        DatePicker picker = new DatePicker(this);
-        final EditText DateInput = new EditText(Budgeting.this);
+
+    // Creates and displays alert dialog builder
+    public void displayPopup() {
+
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        //Title of alertdialog
+        builder.setTitle("Enter Your Budget Info");
+
+        // Creates Save Amount to store user input
+        final EditText SaveAmt = new EditText(Budgeting.this);
+
+        //User can only input Numbers
+        SaveAmt.setInputType(InputType.TYPE_CLASS_NUMBER);
+        //Creates a label where user enters amount to save
+        SaveAmt.setHint("Enter How Much you want to save");
+
+        //Creates SaveMonth to store user input
+        final EditText SaveMonth = new EditText(Budgeting.this);
+        //Creates a label where user enters months to save
+        SaveMonth.setHint("Months you would like to save?");
+        //User can onlt input Numbers
+        SaveMonth.setInputType(InputType.TYPE_CLASS_NUMBER);
 
 
-        builder.setTitle("Set your Deadline for your new Goal");
-        builder.setView(picker);
-        builder.setNegativeButton("Cancel", null);
-        builder.setPositiveButton("Set", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id){
-                displayPopup();
-                Log.d("Budgeting Goals", DateInput.getText().toString());
+        LinearLayout lay = new LinearLayout(this);
+        lay.setOrientation(LinearLayout.VERTICAL);
+        lay.addView(SaveAmt);
+        lay.addView(SaveMonth);
+        builder.setView(lay);
+
+
+
+        builder.setPositiveButton("Save", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+                if (SaveAmt.getText().length() == 0 || SaveMonth.getText().length() == 0) {
+                   Toast.makeText(Budgeting.this,"Enter a Number or a Numbers above 0",Toast.LENGTH_LONG).show();
+
+                } else {
+
+
+                    Log.d("Budgeting", SaveAmt.getText().toString());
+                    Log.d("Budgeting", SaveMonth.getText().toString());
+
+
+                    int j;
+                    int e;
+
+                    i = Integer.parseInt(SaveAmt.getText().toString());
+                    e = Integer.parseInt(SaveMonth.getText().toString());
+
+                    Log.d("Budgeting Goals", "You will have to save" + (i/e + "dollar" + "for" +e  ));
+
+                    Toast.makeText(getApplicationContext(), "Buget Saved. You will have to save " + (i / e + "  dollars") + (" for " + e + " Months"),
+                            Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                dialog.cancel();
             }
         });
         builder.show();
     }
 
-    // Creates and displays alert dialog builder
-    public void displayPopup() {
-        final AlertDialog.Builder builder = new AlertDialog.Builder(Budgeting.this);
-        final EditText inputField = new EditText(Budgeting.this);
-        builder.setTitle("Making a New Budgeting Goal!");
-        builder.setMessage("What is your new bucket list item?");
-        builder.setView(inputField);
-        builder.setPositiveButton("Save", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                Log.d("Budgeting Goals", inputField.getText().toString());
-            }
-        });
 
-        builder.setNegativeButton("Cancel", null);
-
-        builder.create().show();
-    }
-
-}
