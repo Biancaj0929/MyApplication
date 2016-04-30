@@ -98,7 +98,7 @@ public class Goals extends AppCompatActivity
 
         // If the goal group file doesn't exist, then create it in the BucketList directory
         // Note: Pardon all the if and try/catch, but other ways didn't work
-        if (!new File(path + "/pers.txt").isFile()) {
+        if (!new File(path + "/perso.txt").isFile()) {
             try {
                 FileOutputStream personal = new FileOutputStream(path + "/pers.txt");
             } catch (FileNotFoundException e) {
@@ -253,14 +253,16 @@ public class Goals extends AppCompatActivity
 
             // Takes each line and deletes string from an array
             while ((line = br.readLine()) != null) {
-                if (line.contains(oldGoal)) {
-                    System.out.println("Old goal deleted");
+                if (line.startsWith(oldGoal)) {
+                    Log.d("Goals", "Deleted " + "'" + line + "'");
                 }
                 else {
                     String[] values = line.split("~");
                     listGoal = (values[0] + "       [Deadline: " + values[1] + "]");
                     array[count] = listGoal; // each line at a new array position
                     count++;
+                    Log.d("Test", line);
+                    Log.d("Test1", oldGoal);
                 }
             }
             br.close();

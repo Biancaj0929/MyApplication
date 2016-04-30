@@ -26,6 +26,7 @@ import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.util.regex.Pattern;
 
 /*File: Personal.java
 * Author: Team Bucket List
@@ -66,7 +67,7 @@ public class Personal extends Goals {
         navigationView.setNavigationItemSelectedListener(Personal.this);
 
         // Writes text file data to array
-        writeArray("pers.txt", personalArray);
+        writeArray("perso.txt", personalArray);
         // Updates goals list
         updateGoalList(personalArray);
     }
@@ -87,7 +88,9 @@ public class Personal extends Goals {
 
         for (int i = 0 ; i < goals.length ; i++)
             if (goals[i] != null) {
+
                 goals1[i] = goals[i];
+
             }
 
         final ArrayAdapter<String> theAdapter =
@@ -100,7 +103,9 @@ public class Personal extends Goals {
             public void onItemClick(final AdapterView<?> adapterView, View view, int position, long id) {
                 final String goalPicked = "You selected " +
                         String.valueOf(adapterView.getItemAtPosition(position));
-                Toast.makeText(Personal.this, goalPicked, Toast.LENGTH_SHORT).show();
+                final String goal= String.valueOf(adapterView.getItemAtPosition(position));
+                final String comp = goal.substring(0,5);
+                        Toast.makeText(Personal.this, goalPicked, Toast.LENGTH_SHORT).show();
                 final AlertDialog.Builder builder = new AlertDialog.Builder(Personal.this);
                 builder.setTitle("Personal Goal Selected");
                 builder.setMessage("Please choose to edit or delete goal");
@@ -113,7 +118,8 @@ public class Personal extends Goals {
                 });
                 builder.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        deleteData("pers.txt", personalArray, goalPicked);
+                        deleteData("perso.txt", personalArray, comp);
+                        writeArray("perso.txt", personalArray);
                         updateGoalList(personalArray);
                         //Toast.makeText(getApplicationContext(), "Selected Delete Goal Option", Toast.LENGTH_LONG).show();
                     }
@@ -164,10 +170,10 @@ public class Personal extends Goals {
                         "Saved", Toast.LENGTH_LONG).show();
 
                 // Write goal and date string data to file spiritual.txt
-                writeData("pers.txt", newGoalData);
+                writeData("perso.txt", newGoalData);
 
                 // Writes text file data to array
-                writeArray("pers.txt", personalArray);
+                writeArray("perso.txt", personalArray);
                 // Updates goals list
                 updateGoalList(personalArray);
 
