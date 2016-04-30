@@ -89,7 +89,7 @@ public class Personal extends Goals {
             }
 
         final ArrayAdapter<String> theAdapter =
-                new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, goals1);
+                new ArrayAdapter<String>(this, R.layout.view_goals, R.id.goalTextView, goals1);
         ListView list = (ListView) findViewById(R.id.list);
         list.setAdapter(theAdapter);
 
