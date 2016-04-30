@@ -241,6 +241,36 @@ public class Goals extends AppCompatActivity
         }
     }
 
+    // Deletes individual goal and date data to text file in device storage
+    public void deleteData(String filename, String[] array, String oldGoal) {
+        try {
+            int count = 0;
+            String line;
+            String listGoal;
+
+            InputStream input = new FileInputStream(path + "/" + filename);
+            BufferedReader br = new BufferedReader(new InputStreamReader(input));
+
+            // Takes each line and deletes string from an array
+            while ((line = br.readLine()) != null) {
+                if (line.contains(oldGoal)) {
+                    System.out.println("Old goal deleted");
+                }
+                else {
+                    String[] values = line.split("~");
+                    listGoal = (values[0] + "       [Deadline: " + values[1] + "]");
+                    array[count] = listGoal; // each line at a new array position
+                    count++;
+                }
+            }
+            br.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     // Writes text file data to array
     public void writeArray(String filename, String[] array) {
         try {

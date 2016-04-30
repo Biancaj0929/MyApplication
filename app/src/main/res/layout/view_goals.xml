@@ -3,6 +3,7 @@
 <RelativeLayout
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
+    android:descendantFocusability="blocksDescendants"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <TextView
@@ -16,8 +17,7 @@
         android:textSize="25dp"
         android:layout_toLeftOf="@+id/checkBox"
         android:layout_alignBottom="@+id/checkBox"
-        android:gravity="center_vertical"
-        android:onClick="listGoal"/>
+        android:gravity="center_vertical"/>
 
     <CheckBox
         android:layout_width="wrap_content"

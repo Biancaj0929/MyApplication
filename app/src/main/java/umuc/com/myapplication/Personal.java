@@ -97,13 +97,29 @@ public class Personal extends Goals {
 
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-
-                String goalPicked = "You selected " +
+            public void onItemClick(final AdapterView<?> adapterView, View view, int position, long id) {
+                final String goalPicked = "You selected " +
                         String.valueOf(adapterView.getItemAtPosition(position));
-
-
                 Toast.makeText(Personal.this, goalPicked, Toast.LENGTH_SHORT).show();
+                final AlertDialog.Builder builder = new AlertDialog.Builder(Personal.this);
+                builder.setTitle("Personal Goal Selected");
+                builder.setMessage("Please choose to edit or delete goal");
+                builder.setNegativeButton("Edit", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        //TextView goal = (TextView) adapterView.findViewById(R.id.goalTextView);
+                        //Log.d("Personal",goal.toString());
+                        Toast.makeText(Personal.this, goalPicked,Toast.LENGTH_LONG).show();
+                    }
+                });
+                builder.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        deleteData("pers.txt", personalArray, goalPicked);
+                        updateGoalList(personalArray);
+                        //Toast.makeText(getApplicationContext(), "Selected Delete Goal Option", Toast.LENGTH_LONG).show();
+                    }
+                });
+
+                builder.create().show();
             }
         });
     }
@@ -162,39 +178,9 @@ public class Personal extends Goals {
         builder.create().show();
     }
 
-    public void listGoal(View view) {
-        Log.d("Personal Goals", "Selected goal");
-
-
-
-        final AlertDialog.Builder builder = new AlertDialog.Builder(Personal.this);
-        builder.setTitle("Personal Goal Selected");
-        builder.setMessage("Please choose to edit or delete goal");
-        builder.setNegativeButton("Edit", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                Toast.makeText(getApplicationContext(), "Selected Edit Goal Option", Toast.LENGTH_LONG).show();
-            }
-        });
-        builder.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                Toast.makeText(getApplicationContext(), "Selected Delete Goal Option", Toast.LENGTH_LONG).show();
-            }
-        });
-
-        builder.create().show();
-
-    }
 
     public void completeGoal(View view) {
-        CheckBox cb;
-        cb = (CheckBox) findViewById(R.id.checkBox);
-        if (cb.isChecked()) {
-            Log.d("Personal Goal","Is checked");
-            Toast.makeText(getApplicationContext(), "Personal Goal Completed!", Toast.LENGTH_LONG).show();
-        }
-        else {
-            Log.d("Personal Goal", "Unchecked Goal");
-        }
+        Toast.makeText(getApplicationContext(), "Personal Goal Completed!", Toast.LENGTH_LONG).show();
 
     }
 }
