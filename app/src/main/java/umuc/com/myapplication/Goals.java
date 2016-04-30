@@ -44,7 +44,7 @@ import java.util.Scanner;
 public class Goals extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener{
 
-    //test push - steve
+    //test push - steve1
 
     //********
     // Assigns desired path
