@@ -44,6 +44,8 @@ import java.util.Scanner;
 public class Goals extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener{
 
+    //test push - steve
+
     //********
     // Assigns desired path
     // Note: .getExternalStorageDirectory() Returns the primary shared/external storage directory.
