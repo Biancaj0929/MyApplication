@@ -15,9 +15,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.DatePicker;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.BufferedReader;
@@ -142,8 +144,8 @@ public class Personal extends Goals {
                 Log.d("Personal Goals", goalData = inputField.getText().toString());
                 newGoalData = (goalData + "~" + dateData);
 
-                Toast.makeText(getApplicationContext(),"Goal ("+ goalData + ") " +
-                        "Saved",Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "Goal (" + goalData + ") " +
+                        "Saved", Toast.LENGTH_LONG).show();
 
                 // Write goal and date string data to file spiritual.txt
                 writeData("pers.txt", newGoalData);
@@ -156,7 +158,43 @@ public class Personal extends Goals {
             }
         });
         // *** Clear date variable at this point
-        builder.setNegativeButton("Cancel", null ); //{ dateData = "";}
+        builder.setNegativeButton("Cancel", null); //{ dateData = "";}
         builder.create().show();
+    }
+
+    public void listGoal(View view) {
+        Log.d("Personal Goals", "Selected goal");
+
+
+
+        final AlertDialog.Builder builder = new AlertDialog.Builder(Personal.this);
+        builder.setTitle("Personal Goal Selected");
+        builder.setMessage("Please choose to edit or delete goal");
+        builder.setNegativeButton("Edit", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                Toast.makeText(getApplicationContext(), "Selected Edit Goal Option", Toast.LENGTH_LONG).show();
+            }
+        });
+        builder.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                Toast.makeText(getApplicationContext(), "Selected Delete Goal Option", Toast.LENGTH_LONG).show();
+            }
+        });
+
+        builder.create().show();
+
+    }
+
+    public void completeGoal(View view) {
+        CheckBox cb;
+        cb = (CheckBox) findViewById(R.id.checkBox);
+        if (cb.isChecked()) {
+            Log.d("Personal Goal","Is checked");
+            Toast.makeText(getApplicationContext(), "Personal Goal Completed!", Toast.LENGTH_LONG).show();
+        }
+        else {
+            Log.d("Personal Goal", "Unchecked Goal");
+        }
+
     }
 }
