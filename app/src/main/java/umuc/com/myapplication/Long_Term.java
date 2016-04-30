@@ -10,8 +10,12 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.DatePicker;
+import android.widget.ListView;
+import android.widget.Toast;
 
 /*File: Long_Term.java
 * Author: Team Bucket List
@@ -37,7 +41,7 @@ public class Long_Term extends Goals {
             @Override
             public void onClick(View view) {
                 Log.d("Selected Add", "New long-term goal will be created");
-                displaycal();
+                displayCal();
             }
         });
 
@@ -50,45 +54,101 @@ public class Long_Term extends Goals {
         // Sets navigation view
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(Long_Term.this);
+
+        // Writes text file data to array
+        writeArray("longterm.txt", long_termArray);
+        // Updates goals list
+        updateGoalList(long_termArray);
+    }
+
+    // Updates goal group list view
+    // Note: Had to recreate new array with only non-null elements. Feeding array otherwise to
+    //       ListView was crashing the app
+    public void updateGoalList(String[] goals) {
+        int count = 0;
+
+        for (int i = 0; i < goals.length; i++) {
+            if (goals[i] != null) {
+                count++;
+            }
+        }
+        // Creates new string array
+        String goals1[] = new String[count];
+
+        for (int i = 0 ; i < goals.length ; i++)
+            if (goals[i] != null) {
+                goals1[i] = goals[i];
+            }
+
+        final ArrayAdapter<String> theAdapter =
+                new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, goals1);
+        ListView list = (ListView) findViewById(R.id.list);
+        list.setAdapter(theAdapter);
+
+        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+
+                String goalPicked = "You selected " +
+                        String.valueOf(adapterView.getItemAtPosition(position));
+
+
+                Toast.makeText(Long_Term.this, goalPicked, Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     // Displays date picker to keep track of deadlines for goals
-    public void displaycal() {
+    public void displayCal() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        DatePicker picker = new DatePicker(this);
-        final EditText DateInput = new EditText(Long_Term.this);
+        final DatePicker picker = new DatePicker(this);
+        //final DatePicker dp = (DatePicker) findViewById(R.id.dp);
 
-
-        builder.setTitle("Set your Deadline for your new Goal");
+        builder.setTitle("             Set a Deadline for" + "\n                 your new Goal");
         builder.setView(picker);
         builder.setNegativeButton("Cancel", null);
         builder.setPositiveButton("Set", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id){
+            public void onClick(DialogInterface dialog, int id) {
+
+                String month = String.valueOf(picker.getMonth() + 1);
+                String day = String.valueOf(picker.getDayOfMonth());
+                String year = String.valueOf(picker.getYear());
+                dateData = month + "-" + day + "-" + year;
                 displayPopup();
-                Log.d("Long Term Goals", DateInput.getText().toString());
             }
         });
         builder.show();
     }
-    // Creates and displays alert dialog builder
+
+    // Creates and displays alert dialog builder (popup to enter goal name)
     public void displayPopup() {
         final AlertDialog.Builder builder = new AlertDialog.Builder(Long_Term.this);
         final EditText inputField = new EditText(Long_Term.this);
-        builder.setTitle("Making a New Long-Term Goal!");
+        builder.setTitle("Making a New Long Term Goal!");
         builder.setMessage("What is your new bucket list item?");
         builder.setView(inputField);
         builder.setPositiveButton("Save", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                Log.d("Long-Term Goals", inputField.getText().toString());
+
+                Log.d("Long_Term Goals", goalData = inputField.getText().toString());
+                newGoalData = (goalData + "~" + dateData);
+
+                Toast.makeText(getApplicationContext(), "Goal (" + goalData + ") " +
+                        "Saved", Toast.LENGTH_LONG).show();
+
+                // Write goal and date string data to file long_term.txt
+                writeData("longterm.txt", newGoalData);
+
+                // Writes text file data to array
+                writeArray("longterm.txt", long_termArray);
+                // Updates goals list
+                updateGoalList(long_termArray);
+
             }
         });
-
-        builder.setNegativeButton("Cancel", null);
-
+        // *** Clear date variable at this point
+        builder.setNegativeButton("Cancel", null ); //{ dateData = "";}
         builder.create().show();
     }
 }
-
-
-

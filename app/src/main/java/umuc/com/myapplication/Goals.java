@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.design.widget.FloatingActionButton;
 import android.util.Log;
 import android.view.View;
@@ -13,10 +14,25 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ListView;
+import android.widget.Toast;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.util.Scanner;
+
 
 /*File: Goals.java
 * Author: Team Bucket List
@@ -26,7 +42,25 @@ import android.widget.EditText;
 */
 
 public class Goals extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener{
+
+    //********
+    // Assigns desired path
+    // Note: .getExternalStorageDirectory() Returns the primary shared/external storage directory.
+    public static String path = Environment.getExternalStorageDirectory().getAbsolutePath()
+            + "/BucketList";
+    public static String dateData = "";
+    public static String goalData = "";
+    public static String newGoalData = "";
+
+    // Arrays to hold display elements in group list views
+    // Note: Improvement would be using ArrayList so size doesn't have to be declared/limited
+    public static String[] personalArray = new String[20];
+    public static String[] physicalArray = new String[20];
+    public static String[] spiritualArray = new String[20];
+    public static String[] long_termArray = new String[20];
+    public static String[] budgetArray = new String[20];
+
 
     // On Create method sets activity layout for default menu
     @Override
@@ -43,18 +77,62 @@ public class Goals extends AppCompatActivity
             @Override
             public void onClick(View view) {
                 Log.d("Goal", "New goal will be created");
-                displaycal();
+                displayCal();
             }
         });
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+                this, drawer, toolbar, R.string.navigation_drawer_open,
+                R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
         // Sets navigation view
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+
+        File dir = new File(path);
+        // Creates BucketList directory if it doesn't already exist
+        dir.mkdirs();
+
+        // If the goal group file doesn't exist, then create it in the BucketList directory
+        // Note: Pardon all the if and try/catch, but other ways didn't work
+        if (!new File(path + "/personal.txt").isFile()) {
+            try {
+                FileOutputStream personal = new FileOutputStream(path + "/personal.txt");
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
+        if (!new File(path + "/physical.txt").isFile()) {
+            try {
+                FileOutputStream physical = new FileOutputStream(path + "/physical.txt");
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
+        if (!new File(path + "/spiritual.txt").isFile()) {
+            try {
+                FileOutputStream spiritual = new FileOutputStream(path + "/spiritual.txt");
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
+        if (!new File(path + "/longterm.txt").isFile()) {
+            try {
+                FileOutputStream longterm = new FileOutputStream(path + "/longterm.txt");
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
+        if (!new File(path + "/budget.txt").isFile()) {
+            try {
+                FileOutputStream budget = new FileOutputStream(path + "/budget.txt");
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     // Handles drawer open & close options
@@ -69,7 +147,7 @@ public class Goals extends AppCompatActivity
     }
 
     // Displays date picker to keep track of deadlines for goals
-    public void displaycal() {
+    public void displayCal() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         DatePicker picker = new DatePicker(this);
         final EditText DateInput = new EditText(Goals.this);
@@ -79,7 +157,7 @@ public class Goals extends AppCompatActivity
         builder.setView(picker);
         builder.setNegativeButton("Cancel", null);
         builder.setPositiveButton("Set", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id){
+            public void onClick(DialogInterface dialog, int id) {
                 displayPopup();
                 Log.d("Budgeting Goals", DateInput.getText().toString());
             }
@@ -98,11 +176,11 @@ public class Goals extends AppCompatActivity
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 displayPopup();
-                Log.d("Goals",inputField.getText().toString());
+                Log.d("Goals", inputField.getText().toString());
             }
         });
 
-        builder.setNegativeButton("Cancel",null);
+        builder.setNegativeButton("Cancel", null);
 
         builder.create().show();
     }
@@ -143,6 +221,48 @@ public class Goals extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
 
+
+    // Writes individual goal and date data to text file in device storage
+    public void writeData(String filename, String goal_data) {
+        FileOutputStream fos = null;
+        try {
+            fos = new FileOutputStream(path + "/" + filename, true);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        try {
+            fos.write((goal_data + System.getProperty("line.separator")).getBytes());
+            fos.flush();
+            fos.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    // Writes text file data to array
+    public void writeArray(String filename, String[] array) {
+        try {
+            int count = 0;
+            String line;
+            String listGoal;
+
+            InputStream input = new FileInputStream(path + "/" + filename);
+            BufferedReader br = new BufferedReader(new InputStreamReader(input));
+
+            // Takes each line and adds it to an array in a format
+            while ((line = br.readLine()) != null) {
+                String[] values = line.split("~");
+                listGoal = (values[0] + "       [Deadline: " + values[1] + "]");
+                array[count] = listGoal; // each line at a new array position
+                count++;
+            }
+            br.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

@@ -13,9 +13,12 @@ import android.text.Editable;
 import android.text.InputType;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.DatePicker;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.Toast;
 
 /*File: Budgeting.java
@@ -56,8 +59,49 @@ public class Budgeting extends Goals {
         // Sets navigation view
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(Budgeting.this);
+
+        // Writes text file data to array
+        writeArray("budgeting.txt", budgetArray);
+        // Updates goals list
+        updateGoalList(budgetArray);
     }
 
+    // Updates goal group list view
+    // Note: Had to recreate new array with only non-null elements. Feeding array otherwise to
+    //       ListView was crashing the app
+    public void updateGoalList(String[] goals) {
+        int count = 0;
+
+        for (int i = 0; i < goals.length; i++) {
+            if (goals[i] != null) {
+                count++;
+            }
+        }
+        // Creates new string array
+        String goals1[] = new String[count];
+
+        for (int i = 0 ; i < goals.length ; i++)
+            if (goals[i] != null) {
+                goals1[i] = goals[i];
+            }
+
+        final ArrayAdapter<String> theAdapter =
+                new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, goals1);
+        ListView list = (ListView) findViewById(R.id.list);
+        list.setAdapter(theAdapter);
+
+        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+
+                String goalPicked = "You selected " +
+                        String.valueOf(adapterView.getItemAtPosition(position));
+
+
+                Toast.makeText(Budgeting.this, goalPicked, Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
 
     // Creates and displays alert dialog builder
     public void displayPopup() {
@@ -90,13 +134,12 @@ public class Budgeting extends Goals {
         builder.setView(lay);
 
 
-
         builder.setPositiveButton("Save", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
 
                 if (SaveAmt.getText().length() == 0 || SaveMonth.getText().length() == 0) {
-                   Toast.makeText(Budgeting.this,"Enter a Number or a Numbers above 0",Toast.LENGTH_LONG).show();
+                    Toast.makeText(Budgeting.this, "Enter a Number or a Numbers above 0", Toast.LENGTH_LONG).show();
 
                 } else {
 
@@ -111,11 +154,16 @@ public class Budgeting extends Goals {
                     i = Integer.parseInt(SaveAmt.getText().toString());
                     e = Integer.parseInt(SaveMonth.getText().toString());
 
-                    Log.d("Budgeting Goals", "You will have to save" + (i/e + "dollar" + "for" +e  ));
+                    Log.d("Budgeting Goals", "You will have to save" + (i / e + "dollar" + "for" + e));
 
                     Toast.makeText(getApplicationContext(), "Buget Saved. You will have to save " + (i / e + "  dollars") + (" for " + e + " Months"),
                             Toast.LENGTH_LONG).show();
                 }
+
+                // Writes text file data to array
+                writeArray("budgeting.txt", budgetArray);
+                // Updates goals list
+                updateGoalList(budgetArray);
             }
         });
 
@@ -126,5 +174,4 @@ public class Budgeting extends Goals {
         });
         builder.show();
     }
-
-
+}
