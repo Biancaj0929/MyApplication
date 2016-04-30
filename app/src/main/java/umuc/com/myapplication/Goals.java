@@ -100,9 +100,9 @@ public class Goals extends AppCompatActivity
 
         // If the goal group file doesn't exist, then create it in the BucketList directory
         // Note: Pardon all the if and try/catch, but other ways didn't work
-        if (!new File(path + "/perso.txt").isFile()) {
+        if (!new File(path + "/personal.txt").isFile()) {
             try {
-                FileOutputStream personal = new FileOutputStream(path + "/pers.txt");
+                FileOutputStream personal = new FileOutputStream(path + "/personal.txt");
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }

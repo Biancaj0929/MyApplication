@@ -109,6 +109,8 @@ public class Personal extends Goals {
                 final AlertDialog.Builder builder = new AlertDialog.Builder(Personal.this);
                 builder.setTitle("Personal Goal Selected");
                 builder.setMessage("Please choose to edit or delete goal");
+
+
                 builder.setNegativeButton("Edit", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         //TextView goal = (TextView) adapterView.findViewById(R.id.goalTextView);
@@ -118,8 +120,8 @@ public class Personal extends Goals {
                 });
                 builder.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        deleteData("perso.txt", personalArray, comp);
-                        writeArray("perso.txt", personalArray);
+                        deleteData("personal.txt", personalArray, comp);
+                        writeArray("personal.txt", personalArray);
                         updateGoalList(personalArray);
                         //Toast.makeText(getApplicationContext(), "Selected Delete Goal Option", Toast.LENGTH_LONG).show();
                     }
@@ -169,11 +171,11 @@ public class Personal extends Goals {
                 Toast.makeText(getApplicationContext(), "Goal (" + goalData + ") " +
                         "Saved", Toast.LENGTH_LONG).show();
 
-                // Write goal and date string data to file spiritual.txt
-                writeData("perso.txt", newGoalData);
+                // Write goal and date string data to file personal.txt
+                writeData("personal.txt", newGoalData);
 
                 // Writes text file data to array
-                writeArray("perso.txt", personalArray);
+                writeArray("personal.txt", personalArray);
                 // Updates goals list
                 updateGoalList(personalArray);
 
