@@ -53,5 +53,6 @@
         <receiver
             android:name=".NotificationPublisher"
             android:enabled="true">
+        </receiver>
     </application>
 </manifest>
