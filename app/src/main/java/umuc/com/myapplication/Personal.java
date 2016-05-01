@@ -183,7 +183,6 @@ public class Personal extends Goals {
         builder.setNegativeButton("Cancel", null); //{ dateData = "";}
         builder.create().show();
     }
-
     public void completeGoal(View view) {
         Toast.makeText(getApplicationContext(), "Personal Goal Completed!", Toast.LENGTH_LONG).show();
     }

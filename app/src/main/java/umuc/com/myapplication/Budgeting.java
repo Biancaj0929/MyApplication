@@ -174,4 +174,7 @@ public class Budgeting extends Goals {
         });
         builder.show();
     }
+    public void completeGoal(View view) {
+        Toast.makeText(getApplicationContext(), "Personal Goal Completed!", Toast.LENGTH_LONG).show();
+    }
 }
