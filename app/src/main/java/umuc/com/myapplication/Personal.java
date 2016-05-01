@@ -1,6 +1,8 @@
 package umuc.com.myapplication;
 
+import android.app.AlarmManager;
 import android.app.AlertDialog;
+import android.app.PendingIntent;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -26,6 +28,7 @@ import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.util.Calendar;
 import java.util.regex.Pattern;
 
 /*File: Personal.java
@@ -37,6 +40,8 @@ import java.util.regex.Pattern;
 
 public class Personal extends Goals {
 
+    private PendingIntent pendingIntent;
+    
     // On Create method sets activity layout for spiritual menu
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +75,9 @@ public class Personal extends Goals {
         writeArray("personal.txt", personalArray);
         // Updates goals list
         updateGoalList(personalArray);
+        
+        //set up notification services
+        setAlarm();
     }
 
     // Updates goal group list view
@@ -185,5 +193,27 @@ public class Personal extends Goals {
     }
     public void completeGoal(View view) {
         Toast.makeText(getApplicationContext(), "Personal Goal Completed!", Toast.LENGTH_LONG).show();
+    }
+    
+        /* Activates notification services */
+    public void setAlarm() {
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.HOUR_OF_DAY, 11);
+        calendar.set(Calendar.MINUTE, 00);
+        calendar.set(Calendar.SECOND, 0);
+
+        Intent myIntent = new Intent(Personal.this, NotificationPublisher.class);
+        pendingIntent = PendingIntent.getBroadcast(Personal.this, 0, myIntent,0);
+
+        AlarmManager alarmManager = (AlarmManager)getSystemService(ALARM_SERVICE);
+        //alarmManager.set(AlarmManager.RTC, calendar.getTimeInMillis(), pendingIntent);
+        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,
+                calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
+
+        Calendar now = Calendar.getInstance();
+        if (now.after(calendar)) {
+            calendar.add(Calendar.DATE, 1);
+        }
     }
 }
