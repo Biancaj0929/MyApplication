@@ -169,7 +169,10 @@ public class Long_Term extends Goals {
             }
         });
         // *** Clear date variable at this point
-        builder.setNegativeButton("Cancel", null ); //{ dateData = "";}
+        builder.setNegativeButton("Cancel", null); //{ dateData = "";}
         builder.create().show();
+    }
+    public void completeGoal(View view) {
+        Toast.makeText(getApplicationContext(), "Personal Goal Completed!", Toast.LENGTH_LONG).show();
     }
 }

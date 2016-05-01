@@ -155,8 +155,8 @@ public class Spiritual extends Goals {
                 Log.d("Spiritual Goals", goalData = inputField.getText().toString());
                 newGoalData = (goalData + "~" + dateData);
 
-                Toast.makeText(getApplicationContext(),"Goal ("+ goalData + ") " +
-                        "Saved",Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "Goal (" + goalData + ") " +
+                        "Saved", Toast.LENGTH_LONG).show();
 
                 // Write goal and date string data to file spiritual.txt
                 writeData("spiritual.txt", newGoalData);
@@ -169,7 +169,10 @@ public class Spiritual extends Goals {
             }
         });
         // *** Clear date variable at this point
-        builder.setNegativeButton("Cancel", null ); //{ dateData = "";}
+        builder.setNegativeButton("Cancel", null); //{ dateData = "";}
         builder.create().show();
+    }
+    public void completeGoal(View view) {
+        Toast.makeText(getApplicationContext(), "Personal Goal Completed!", Toast.LENGTH_LONG).show();
     }
 }
