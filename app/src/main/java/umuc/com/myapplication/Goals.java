@@ -21,6 +21,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
+import java.io.PrintWriter;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -44,7 +45,7 @@ import java.util.Scanner;
 public class Goals extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener{
 
-    //test push - steve
+    //test push - steve1
 
     //********
     // Assigns desired path
@@ -56,7 +57,8 @@ public class Goals extends AppCompatActivity
     public static String newGoalData = "";
 
     // Arrays to hold display elements in group list views
-    // Note: Improvement would be using ArrayList so size doesn't have to be declared/limited
+    // Note: Improvement would be using ArrayList so size doesn't have to be declared/limited,
+    //       which would make the program much more efficient
     public static String[] personalArray = new String[20];
     public static String[] physicalArray = new String[20];
     public static String[] spiritualArray = new String[20];
@@ -100,9 +102,9 @@ public class Goals extends AppCompatActivity
 
         // If the goal group file doesn't exist, then create it in the BucketList directory
         // Note: Pardon all the if and try/catch, but other ways didn't work
-        if (!new File(path + "/perso.txt").isFile()) {
+        if (!new File(path + "/personal.txt").isFile()) {
             try {
-                FileOutputStream personal = new FileOutputStream(path + "/pers.txt");
+                FileOutputStream personal = new FileOutputStream(path + "/personal.txt");
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }
@@ -225,7 +227,6 @@ public class Goals extends AppCompatActivity
         return true;
     }
 
-
     // Writes individual goal and date data to text file in device storage
     public void writeData(String filename, String goal_data) {
         FileOutputStream fos = null;
@@ -243,35 +244,91 @@ public class Goals extends AppCompatActivity
         }
     }
 
-    // Deletes individual goal and date data to text file in device storage
-    public void deleteData(String filename, String[] array, String oldGoal) {
-        try {
-            int count = 0;
-            String line;
-            String listGoal;
+    // Deletes individual goal and date data and writes new list to text file in device storage
+    public void deleteGoal(String filename, String[] array, String[] goalsArray, String goal) {
+        int count = 0;
+        FileOutputStream fos1 = null;
 
-            InputStream input = new FileInputStream(path + "/" + filename);
-            BufferedReader br = new BufferedReader(new InputStreamReader(input));
+        // Goes through array until finds match, then deletes goal entry and exits loop
+        for (int i = 0; i <= goalsArray.length; i++) {
+            if (goalsArray[i] == goal) {
+                goalsArray[i] = null;
+                break;
+            }
+        }
 
-            // Takes each line and deletes string from an array
-            while ((line = br.readLine()) != null) {
-                if (line.startsWith(oldGoal)) {
-                    Log.d("Goals", "Deleted " + "'" + line + "'");
-                }
-                else {
-                    String[] values = line.split("~");
-                    listGoal = (values[0] + "       [Deadline: " + values[1] + "]");
-                    array[count] = listGoal; // each line at a new array position
-                    count++;
-                    Log.d("Test", line);
-                    Log.d("Test1", oldGoal);
+        // Count the goal elements
+        for (int i = 0; i < goalsArray.length; i++) {
+            if (goalsArray[i] != null) {
+                count++;
+            }
+        }
+
+        // If the count of the array is 0, then just create a new file in directory
+        if (count == 0) {
+            PrintWriter pw = null;
+            try {
+                pw = new PrintWriter(path + "/" + filename);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+            pw.close();
+
+            // Clear the array
+            array[0] = " ";
+            for (int i = 1; i < array.length; i++) {
+                array[i] = null;
+            }
+        }
+        else {
+            // Deletes and creates file
+            PrintWriter pw = null;
+            try {
+                pw = new PrintWriter(path + "/" + filename);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+            pw.close();
+
+
+            // Create new array with formatted data from array with the deletion
+            String goals1[] = new String[count];
+            for (int i = 0; i < goals1.length; i++) {
+                if (goalsArray[i] != null) {
+                    String aGoal = goalsArray[i];
+                    String[] split = aGoal.split("\\[");
+                    String[] splitLeft = split[0].split("   ");
+                    String[] splitRight = split[1].split(" ");
+                    String[] splitRight1 = splitRight[1].split("]");
+                    String formattedString = (splitLeft + "~" + splitRight1);
+                    goals1[i] = formattedString;
                 }
             }
-            br.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
+
+            // Write array data to text file
+            try {
+                fos1 = new FileOutputStream(path + "/" + filename, true);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+            try {
+                for (int i = 0; i < goals1.length; i++) {
+                    fos1.write((goals1[i] + System.getProperty("line.separator")).getBytes());
+                    fos1.flush();
+                    fos1.close();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            // Clear the array
+            array[0] = " ";
+            for (int i = 1; i < array.length; i++) {
+                array[i] = null;
+            }
+
+            // Writes text file data to array
+            writeArray(filename, goalsArray);
         }
     }
 

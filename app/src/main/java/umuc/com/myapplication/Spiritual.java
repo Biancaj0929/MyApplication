@@ -66,14 +66,13 @@ public class Spiritual extends Goals {
     //       ListView was crashing the app
     public void updateGoalList(String[] goals) {
         int count = 0;
-
         for (int i = 0; i < goals.length; i++) {
             if (goals[i] != null) {
                 count++;
             }
         }
         // Creates new string array
-        String goals1[] = new String[count];
+        final String goals1[] = new String[count];
 
         for (int i = 0 ; i < goals.length ; i++)
             if (goals[i] != null) {
@@ -87,14 +86,36 @@ public class Spiritual extends Goals {
 
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-
-                String goalPicked = "You selected " +
+            public void onItemClick(final AdapterView<?> adapterView, View view, int position, long id) {
+                final String goalPicked = "You selected " +
                         String.valueOf(adapterView.getItemAtPosition(position));
-
+                final String goal = String.valueOf(adapterView.getItemAtPosition(position));
+                //final String comp = goal.substring(0, 5);
 
                 Toast.makeText(Spiritual.this, goalPicked, Toast.LENGTH_SHORT).show();
+                final AlertDialog.Builder builder = new AlertDialog.Builder(Spiritual.this);
+                builder.setTitle("Personal Goal Selected");
+                builder.setMessage("Please choose to edit or delete goal");
+
+
+                builder.setNegativeButton("Edit", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        //TextView goal = (TextView) adapterView.findViewById(R.id.goalTextView);
+                        //Log.d("Personal",goal.toString());
+                        Toast.makeText(Spiritual.this, goalPicked, Toast.LENGTH_LONG).show();
+                    }
+                });
+                builder.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+
+                        deleteGoal("spiritual.txt", spiritualArray, goals1, goal);
+
+                        updateGoalList(spiritualArray);
+                    }
+                });
+                builder.create().show();
             }
+
         });
     }
 

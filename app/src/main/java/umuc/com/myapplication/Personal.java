@@ -67,7 +67,7 @@ public class Personal extends Goals {
         navigationView.setNavigationItemSelectedListener(Personal.this);
 
         // Writes text file data to array
-        writeArray("perso.txt", personalArray);
+        writeArray("personal.txt", personalArray);
         // Updates goals list
         updateGoalList(personalArray);
     }
@@ -77,20 +77,17 @@ public class Personal extends Goals {
     //       ListView was crashing the app
     public void updateGoalList(String[] goals) {
         int count = 0;
-
         for (int i = 0; i < goals.length; i++) {
             if (goals[i] != null) {
                 count++;
             }
         }
         // Creates new string array
-        String goals1[] = new String[count];
+        final String goals1[] = new String[count];
 
         for (int i = 0 ; i < goals.length ; i++)
             if (goals[i] != null) {
-
                 goals1[i] = goals[i];
-
             }
 
         final ArrayAdapter<String> theAdapter =
@@ -103,30 +100,33 @@ public class Personal extends Goals {
             public void onItemClick(final AdapterView<?> adapterView, View view, int position, long id) {
                 final String goalPicked = "You selected " +
                         String.valueOf(adapterView.getItemAtPosition(position));
-                final String goal= String.valueOf(adapterView.getItemAtPosition(position));
-                final String comp = goal.substring(0,5);
-                        Toast.makeText(Personal.this, goalPicked, Toast.LENGTH_SHORT).show();
+                final String goal = String.valueOf(adapterView.getItemAtPosition(position));
+                //final String comp = goal.substring(0, 5);
+
+                Toast.makeText(Personal.this, goalPicked, Toast.LENGTH_SHORT).show();
                 final AlertDialog.Builder builder = new AlertDialog.Builder(Personal.this);
                 builder.setTitle("Personal Goal Selected");
                 builder.setMessage("Please choose to edit or delete goal");
+
+
                 builder.setNegativeButton("Edit", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         //TextView goal = (TextView) adapterView.findViewById(R.id.goalTextView);
                         //Log.d("Personal",goal.toString());
-                        Toast.makeText(Personal.this, goalPicked,Toast.LENGTH_LONG).show();
+                        Toast.makeText(Personal.this, goalPicked, Toast.LENGTH_LONG).show();
                     }
                 });
                 builder.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        deleteData("perso.txt", personalArray, comp);
-                        writeArray("perso.txt", personalArray);
+
+                        deleteGoal("personal.txt", personalArray, goals1, goal);
+
                         updateGoalList(personalArray);
-                        //Toast.makeText(getApplicationContext(), "Selected Delete Goal Option", Toast.LENGTH_LONG).show();
                     }
                 });
-
                 builder.create().show();
             }
+
         });
     }
 
@@ -169,11 +169,11 @@ public class Personal extends Goals {
                 Toast.makeText(getApplicationContext(), "Goal (" + goalData + ") " +
                         "Saved", Toast.LENGTH_LONG).show();
 
-                // Write goal and date string data to file spiritual.txt
-                writeData("perso.txt", newGoalData);
+                // Write goal and date string data to file personal.txt
+                writeData("personal.txt", newGoalData);
 
                 // Writes text file data to array
-                writeArray("perso.txt", personalArray);
+                writeArray("personal.txt", personalArray);
                 // Updates goals list
                 updateGoalList(personalArray);
 
@@ -184,9 +184,7 @@ public class Personal extends Goals {
         builder.create().show();
     }
 
-
     public void completeGoal(View view) {
         Toast.makeText(getApplicationContext(), "Personal Goal Completed!", Toast.LENGTH_LONG).show();
-
     }
 }
